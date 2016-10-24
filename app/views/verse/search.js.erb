@@ -1,0 +1,30 @@
+$("#flash").remove();
+<% flash.each do |key, value| %>
+  $("#notice").html("<%=j render '/layouts/flash', key: key, value: value %>");
+<% end %>
+
+$("#searchResultsTable tbody").empty();
+<% counter = 0 %>
+<% @search_results.each do |word| %>
+   <% if counter % 18 == 0 %>
+      $("#searchResultsTable tbody").append("<tr></tr>");
+   <% end %>
+
+  $("#searchResultsTable tbody tr:last").append("<td><%= j link_to "#{word.verse.book} #{word.verse.chapter.to_s}:#{word.verse.verse.to_s}", verse_show_ajax_path(word.verse), remote: true %></td>");
+  <% counter += 1 %>
+<% end %>
+
+$("#searchResultsTable tbody").append("</tr>");
+$("#searchResultsMessage").text("<%= "Found #{@search_results.size} verses." %>");
+<% if @search_results.empty? %>
+  //alert("search results are empty");
+  $("#searchResultsMessage").hide();
+  $("#hideShowSearchResults").hide();
+  $("#clearSearchResults").hide();
+<% else %>
+  $("#searchResultsMessage").show();
+  $("#hideShowSearchResults").show();
+  $("#clearSearchResults").show();
+<% end %>
+
+<% flash.clear %>

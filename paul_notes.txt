@@ -1,0 +1,10 @@
+-- getting setup
+docker run --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root -d mysql
+docker exec -i mysql mysql -uroot -proot < backup_bst_production_20160405_1615.sql
+docker exec -it mysql mysql -uroot -proot
+  >mysql select * from bst_production.kjv_bible;
+
+$ export VIRTUAL_HOST=104.236.11.136
+
+point browser to: http://104.236.11.136/
+

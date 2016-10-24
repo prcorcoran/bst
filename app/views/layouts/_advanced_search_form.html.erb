@@ -1,0 +1,29 @@
+<div id = "advancedSearchFormDiv" class="invisible">
+<fieldset  id="advancedSearchFieldset" class="bstAdvancedFieldset"><legend>Word Search</legend>
+<%= form_tag({ :action => :advanced_search}, {:remote => true}) %>
+<div style = "float: right; top-margin: -.5em;">
+<%= link_to( "&nbsp;+&nbsp;".html_safe, {:action => :add_advanced_search_line, :remote => true}, {:class => 'button', :onmouseover => "coolTip('Add a search line.',MOUSEOFF, DELAY, 800);", :onmouseout => "nd();"})%>
+<br/>
+<%= link_to( "&nbsp;-&nbsp;".html_safe, {:action => :remove_advanced_search_line, :remote => true}, {:href => "javascript: void(0);", :class => 'button', :onmouseover => "coolTip('Remove a search line.',MOUSEOFF, DELAY, 800);", :onmouseout => "nd();"})%>
+</div>
+<div>
+<table>
+<tbody id="advancedSearchTbody">
+  <tr class="advancedSearchHeader"><td>Strongs</td><td>Tense/</td><td>Voice/</td><td>Mode/</td><td>Number/</td><td>&nbsp;</td>
+  </tr>                 
+  <tr class="advancedSearchHeader"><td>Nbr</td><td>Gender</td><td>Other</td><td>Case</td><td>Person</td><td>Part</td></tr>
+  <% 1.upto(@advanced_search_lines) { | int | %>
+          <%= render :partial => "layouts/advanced_search_line", :locals => {:int => int}%>
+  <% } %>
+</tbody>
+</table>
+<input name="search" type="submit" value="Search" />
+<input name="reset" type="reset" value="Reset" />
+<input name="search_type" type="radio" value="All" checked="checked" />All
+<input name="search_type" type="radio" value="Any" />Any
+<input name="search_type" type="radio" value="Phrase" />Phrase
+<%= link_to( "Simple Search", {:action => :show_simple_search_form}, {:remote => true})%>
+</div>
+</form>
+</fieldset>
+</div>

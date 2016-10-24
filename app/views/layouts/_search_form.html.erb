@@ -1,0 +1,17 @@
+<div id="searchFormDiv" class="searchFormDiv">
+<fieldset  id="searchFieldset" class="bstFieldset"><legend>Word Search</legend>
+<%= form_tag({ :action => :search }, {:remote => true}) %>
+<div>
+<label for="searchWord" />Strongs nbr
+<input name="searchWord" id="searchWord" size="18" type="text" value="" autocomplete="off"></input>
+<%= link_to( "Advanced Search", {:action=>:show_advanced_search_form}, {:remote=>true} ) %> 
+<br />
+<input name="search" type="submit" value="Search" />
+<input name="reset" type="reset" value="Reset" />
+<input name="search_type" type="radio" value="All" checked="checked" />All
+<input name="search_type" type="radio" value="Any" />Any
+<input name="search_type" type="radio" value="Phrase" />Phrase
+</div>
+</form>
+</fieldset>
+</div>

@@ -1,0 +1,110 @@
+version: '2'
+services:
+  proxy:
+    image: jkuo/nginx-proxy
+    restart: always
+#    environment:
+#      - "constraint:primary==true"
+#      - DOCKER_HOST
+    ports:
+      - "80:80"
+#      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+#      - /home/paulc/sbgc/certs:/etc/nginx/certs
+      - /home/paulc/vhost.d:/etc/nginx/vhost.d:ro
+#      - /usr/share/nginx/html
+    networks:
+      - front-end
+
+  web:
+#    image: prcorcoran/sbgc:${SBGC_VERSION}
+    image: bst
+    restart: always
+    depends_on:
+      - mysql
+      - proxy
+    environment:
+      - VIRTUAL_HOST
+      - VIRTUAL_PORT
+      - RAILS_ENV
+      - RACK_ENV
+#      - SECRET_KEY_BASE
+#      - MAIL_USERNAME
+#      - MAIL_PASSWORD
+#      - MAIL_DOMAIN
+#      - MAIL_ADDRESS
+#      - MAIL_PORT
+#      - AMAZON_S3_AWSACCESSKEYID
+#      - AMAZON_S3_AWSSECRETKEY
+#      - AMAZON_S3_AWSBUCKETNAME
+#      - STRIPE_SECRET_KEY
+#      - STRIPE_PUBLISHABLE_KEY
+#      - POSTGRES_DATABASE
+#      - POSTGRES_USERNAME
+#      - POSTGRES_PASSWORD
+#      - SBGC_ENVIRONMENT
+#      - MAILCHIMP_API_KEY
+#      - PAYPAL_SANDBOX
+#      - PAYPAL_USERNAME
+#      - PAYPAL_PASSWORD
+#      - PAYPAL_SIGNATURE
+#      - REDIS_URL
+#      - "constraint:web==true"
+    ports:
+      - "3000"
+    command: bundle exec puma -C config/puma.rb
+    networks:
+      - front-end
+      - back-end
+  # Development tip: uncomment the following 2 lines. This share mounts the rails directory into the container so we don't have to rebuild the image
+  # after every change.
+    volumes:
+      - .:/app/
+  # However, in production, it will cause problems scaling multiple web containers because the tmp/pids directory is shared.
+
+  log_manager:
+    image: gliderlabs/logspout
+    restart: always
+#    environment:
+#      - "constraint:primary==true"
+    ports:
+      - "8000:8000"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock
+    command: syslog://${PAPERTRAIL_DEST}
+    networks:
+      - back-end
+
+
+  mysql:
+    image: mysql 
+    restart: always
+#    environment:
+#      - "constraint:primary==true"
+    environment:
+      -  MYSQL_ROOT_PASSWORD=root
+    ports:
+      - 3306:3306
+    networks:
+      - back-end
+
+#  database-mysql:
+#    image: "mariadb"
+#    mem_limit: "256m"
+#    container_name: "example-mysql"
+#    volumes:
+#      - "db-data:/var/lib/mysql"
+#    environment:
+#      - "MYSQL_ROOT_PASSWORD=XXXX"
+#      - "MYSQL_DATABASE=example"
+#      - "MYSQL_USER=example"
+#      - "MYSQL_PASSWORD=XXXXX"
+#    networks:
+#      - "db-tier"
+
+networks:
+  front-end:
+    driver: bridge
+  back-end:
+    driver: bridge

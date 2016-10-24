@@ -1,0 +1,58 @@
+<div style="display: none"> <img src="/images/hover-bg.gif" /> <img src="/images/normal-bg.gif" /> </div> 
+<div id="headerDiv">
+    <div id="findFormDiv" class="findFormDiv">
+    <fieldset id="findFieldset" class="bstFieldset" ><legend>Find Verse</legend>
+      <form id="bstForm" action="/Verse/find" method="get">
+      <div>
+        <label for="userVerse">Verse</label>
+        <input id="userVerse" name="userVerse" size="8" type="text" value="" onfocus="formInUse = true;" autocomplete="off" ></input>
+        <input name="commit" type="submit" value="Find"></input>
+        <input name="reset" type="reset" value="Reset"></input>
+      </div>
+      </form>
+        <div id="booksDiv" class="customPicker">
+          <table id="booksTable" cellspacing="2"><tbody><tr><td>MAT</td><td>MAR</td><td>LUK</td><td>JON</td><td>ACT</td><td>ROM</td><td>1CO</td><td>2CO</td><td>GAL</td><td>EPH</td><td>PHL</td><td>COL</td><td>1TH</td><td>2TH</td></tr><tr><td>1TM</td><td>2TM</td><td>TIT</td><td>PHI</td><td>HEB</td><td>JAM</td><td>1PE</td><td>2PE</td><td>1JN</td><td>2JN</td><td>3JN</td><td>JUD</td><td>REV</td></tr>
+          </tbody>
+          </table>
+        </div>
+    </fieldset>
+  </div>
+  <%=  render(:partial => "layouts/search_form") %>
+  <div id="adDiv">
+  <%=  render(:partial => "layouts/advanced_search_form") %>
+  </div>
+  <div class="clearer">&nbsp;</div>
+</div>
+<p id="flash" class="<%= @flash.to_s[0,4] == "info" ? "info" : "error"%>"><%= @flash %></p>
+<div id="chapterDiv"></div>
+<div id="verseDiv"></div>
+<% @page_title = 
+   "verse #{@verse.book} #{@verse.chapter}:#{@verse.verse}" %> 
+<div>
+<button id="clearSearchResults" class="invisible" onclick="new Ajax.Request('/verse/key_F4_pressed/prev', {asynchronous:true, evalScripts:true});">Clear Results</button>
+<button id="hideShowSearchResults" class="invisible" onclick="javascript:hideShowSearchResults(); return false;">Hide Results</button>
+<span id="searchResultsMessage"></span>
+</div>
+<div id="searchResultsDiv">
+<%= controller.display_search_results %>
+</div>
+<div id="translationDiv"><%= @verse.kjv_bible.translation %></div>
+<table id="navigationTable">
+  <tr align="center">
+    <td id="prevBookCell"><span title="Keyboard shortcut: Home key"><%= link_to( "Prev Book", 
+                      {:action => :prev_book, :id => @verse.id})%></span></td>
+    <td id="prevChapterCell"><span title="Keyboard shortcut: Page Up key"><%= link_to( "Prev Chapter", 
+                      {:action => :prev_chapter, :id => @verse.id})%></span></td>
+    <td id="prevVerseCell"><span title="Keyboard shortcut: Up Arrow key"><%= link_to( "Prev Verse", 
+                      {:action => :prev_verse, :id => @verse.id})%></span></td>
+    <td id="nextVerseCell"><span title="Keyboard shortcut: Down Arrow key"><%= link_to( "Next Verse", 
+                      {:action => :next_verse, :id => @verse.id})%></span></td>
+    <td id="nextChapterCell"><span title="Keyboard shortcut: Page Down key"><%= link_to( "Next Chapter", 
+                      {:action => :next_chapter, :id => @verse.id})%></span></td>
+    <td id="nextBookCell"><span title="Keyboard shortcut: End key"><%= link_to( "Next Book", 
+                      {:action => :next_book, :id => @verse.id})%></span></td>
+  </tr>
+</table>
+<div id="grammarTableDiv">
+<%= controller.display_table %>
+</div> 

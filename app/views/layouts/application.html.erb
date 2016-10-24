@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Bstaaa</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body onload="init();"  onkeydown="return showDown(event);" background="<%=@background %>">
+<div id="ctDiv" style="position: absolute; visibility: hidden; z-index: 1000;"></div>
+<div style="text-align: center">
+<div style="float: right"><%= link_to "Help", 
+                 :controller => "verse", 
+                 :action     => "show_help" %>
+</div>
+<div id="title"><b>BIBLE STUDY TOOLS</b></div>
+</div>
+
+<%= yield %>
+
+<hr/>
+<p>Copyright &copy; 2006, "John White/Paul Corcoran"</p>
+</body>
+</html>

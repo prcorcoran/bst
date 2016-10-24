@@ -1,0 +1,33 @@
+/*CustoPicker settings*/
+
+  #booksDiv {
+	display: block;
+	margin-left: auto;
+	margin-bottom: 0em;
+	margin-right: auto;
+	margin-top: .5em;
+  }
+
+.customPicker table {
+  border: 1px solid #bdb2bf;
+  font-size: 11px;
+  color: #000;
+  cursor: default;
+  background: url("/images/normal-bg.gif");
+  font-family: "trebuchet ms",verdana,tahoma,sans-serif;
+}
+
+.customPickerChapterDiv {
+  border: 1px solid #bdb2bf;
+  font-size: 11px;
+  border-spacing: 20px 2px;
+  color: #000;
+  cursor: default;
+  background: url("/images/normal-bg.gif");
+  font-family: "trebuchet ms",verdana,tahoma,sans-serif;
+}
+
+.customPicker tbody td.hilite { /* Hovered cells <TD> */
+  background: url("/images/hover-bg.gif");
+}
+

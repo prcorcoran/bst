@@ -1,0 +1,40 @@
+    <tr id="ad<%=int%>">
+    <td>
+    <input name="strong_number_id<%=int%>" id="searchWord<%=int%>" size="8" type="text" value="" autocomplete="off"></input>
+    </td>
+    <td>
+    <select name="grammar_tense_gender_code_id<%=int%>" id="tenseGender<%=int%>">
+    <% GrammarTenseGenderCode.cached_instances.values.each do | tenseGender | %>
+    <option value="<%= tenseGender.id%>"><%=tenseGender.descr%></option>
+    <% end %>
+    </select>
+    </td>
+    <td>
+    <select name="grammar_voice_case_code_id<%=int%>" id="voiceCase<%=int%>">
+    <% GrammarVoiceCaseCode.cached_instances.values.each do | voiceCase | %>
+    <option value="<%= voiceCase.id%>"><%=voiceCase.descr%></option>
+    <% end %>
+    </select>
+    </td>
+    <td>
+    <select name="grammar_mode_code_id<%=int%>" id="mode<%=int%>">
+    <% GrammarModeCode.cached_instances.values.each do | mode | %>
+    <option value="<%= mode.id%>"><%=mode.descr%></option>
+    <% end %>
+    </select>
+    </td>
+    <td>
+    <select name="grammar_number_person_code_id<%=int%>" id="numberPerson<%=int%>">
+    <% GrammarNumberPersonCode.cached_instances.values.each do | numberPerson | %>
+    <option value="<%= numberPerson.id%>"><%=numberPerson.descr%></option>
+    <% end %>
+    </select>
+    </td>
+    <td>
+    <select name="grammar_participle_case_code_id<%=int%>" id="participleCase<%=int%>">
+    <% GrammarParticipleCaseCode.cached_instances.values.each do | participleCase | %>
+    <option value="<%= participleCase.id%>"><%=participleCase.descr%></option>
+    <% end %>
+    </select>
+    </td>
+  </tr>

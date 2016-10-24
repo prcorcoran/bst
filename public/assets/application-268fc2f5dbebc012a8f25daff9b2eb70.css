@@ -1,0 +1,274 @@
+/*CustoPicker settings*/
+/* line 3, /app/app/assets/stylesheets/themeCustomPicker.css.scss */
+#booksDiv {
+  display: block;
+  margin-left: auto;
+  margin-bottom: 0em;
+  margin-right: auto;
+  margin-top: .5em;
+}
+
+/* line 11, /app/app/assets/stylesheets/themeCustomPicker.css.scss */
+.customPicker table {
+  border: 1px solid #bdb2bf;
+  font-size: 11px;
+  color: #000;
+  cursor: default;
+  background: url("/images/normal-bg.gif");
+  font-family: "trebuchet ms",verdana,tahoma,sans-serif;
+}
+
+/* line 20, /app/app/assets/stylesheets/themeCustomPicker.css.scss */
+.customPickerChapterDiv {
+  border: 1px solid #bdb2bf;
+  font-size: 11px;
+  border-spacing: 20px 2px;
+  color: #000;
+  cursor: default;
+  background: url("/images/normal-bg.gif");
+  font-family: "trebuchet ms",verdana,tahoma,sans-serif;
+}
+
+/* line 30, /app/app/assets/stylesheets/themeCustomPicker.css.scss */
+.customPicker tbody td.hilite {
+  /* Hovered cells <TD> */
+  background: url("/images/hover-bg.gif");
+}
+/* flash messages */
+/* line 3, /app/app/assets/stylesheets/verse.css.scss */
+.alert-error {
+  border-color: #eed3d7;
+  color: #ff0000;
+  text-align: left;
+}
+
+/* line 8, /app/app/assets/stylesheets/verse.css.scss */
+.alert-alert {
+  background-color: #f2dede;
+  border-color: #eed3d7;
+  color: #b94a48;
+  text-align: left;
+}
+
+/* line 14, /app/app/assets/stylesheets/verse.css.scss */
+.alert-success {
+  background-color: #dff0d8;
+  border-color: #d6e9c6;
+  color: #468847;
+  text-align: left;
+}
+
+/* line 20, /app/app/assets/stylesheets/verse.css.scss */
+.alert-notice {
+  background-color: #dff0d8;
+  border-color: #d6e9c6;
+  color: #468847;
+  text-align: left;
+}
+
+/* line 26, /app/app/assets/stylesheets/verse.css.scss */
+.close {
+  float: right;
+  font-size: 21px;
+  font-weight: bold;
+  line-height: 1;
+  color: black;
+  text-shadow: 0 1px 0 white;
+  opacity: 0.2;
+  filter: alpha(opacity=20);
+}
+
+/* line 36, /app/app/assets/stylesheets/verse.css.scss */
+.button {
+  background-color: #c4e8fe;
+  border: 4;
+  font-family: courier new;
+  font-size: 14px;
+  color: #000000;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+/* line 46, /app/app/assets/stylesheets/verse.css.scss */
+.advancedSearchHeader {
+  font-family: arial;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+/* line 52, /app/app/assets/stylesheets/verse.css.scss */
+#advancedSearchFormDiv {
+  float: right;
+  margin-left: 0em;
+  margin-bottom: 0em;
+  margin-top: 0em;
+  margin-right: 8px;
+  width: 50%;
+}
+
+/* line 61, /app/app/assets/stylesheets/verse.css.scss */
+#findFormDiv {
+  float: left;
+  margin-left: 4px;
+  margin-bottom: 0em;
+  margin-top: 0em;
+  margin-right: 0em;
+  width: 45%;
+}
+
+/* line 70, /app/app/assets/stylesheets/verse.css.scss */
+#grammarTable {
+  background: #00028f;
+  color: #ffffff;
+  font-family: courier new;
+  font-weight: 600;
+  clear: left;
+  border: 0;
+  width: 100%;
+}
+
+/* line 80, /app/app/assets/stylesheets/verse.css.scss */
+#headerDiv {
+  width: 100%;
+}
+
+/* line 84, /app/app/assets/stylesheets/verse.css.scss */
+#navigationTable {
+  border: 0;
+  padding: 0;
+  width: 70%;
+}
+
+/* line 90, /app/app/assets/stylesheets/verse.css.scss */
+#searchResultsTable a {
+  font-family: times new roman;
+  font-size: 16px;
+}
+
+/* line 95, /app/app/assets/stylesheets/verse.css.scss */
+#searchFormDiv {
+  float: right;
+  margin-left: 0em;
+  margin-bottom: 0em;
+  margin-top: 0em;
+  margin-right: 8px;
+  width: 50%;
+}
+
+/* line 104, /app/app/assets/stylesheets/verse.css.scss */
+#title {
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 0;
+  font-family: arial;
+  font-size: 20px;
+}
+
+/* line 112, /app/app/assets/stylesheets/verse.css.scss */
+#translationDiv {
+  clear: left;
+  min-height: 2.5em;
+}
+
+/* line 117, /app/app/assets/stylesheets/verse.css.scss */
+.bstAdvancedFieldset {
+  width: 100%;
+  display: block;
+}
+
+/* line 122, /app/app/assets/stylesheets/verse.css.scss */
+.bstFieldset {
+  width: 100%;
+  display: block;
+}
+
+/* line 127, /app/app/assets/stylesheets/verse.css.scss */
+.clearer {
+  clear: both;
+  font-size: 1px;
+}
+
+/* line 132, /app/app/assets/stylesheets/verse.css.scss */
+.error {
+  color: #ff0000;
+  font-family: courier new;
+  font-weight: 600;
+}
+
+/* line 138, /app/app/assets/stylesheets/verse.css.scss */
+.info {
+  color: #0000ff;
+  font-family: arial;
+}
+
+/* line 143, /app/app/assets/stylesheets/verse.css.scss */
+.invisible {
+  display: none;
+  visibility: hidden;
+}
+
+/* line 148, /app/app/assets/stylesheets/verse.css.scss */
+.visible {
+  display: block;
+  visibility: visible;
+}
+
+/* line 153, /app/app/assets/stylesheets/verse.css.scss */
+.nomCase {
+  color: #00ff00;
+}
+
+/* line 157, /app/app/assets/stylesheets/verse.css.scss */
+.verb {
+  color: #ff0000;
+}
+
+/* line 161, /app/app/assets/stylesheets/verse.css.scss */
+.hiliteSearchWord {
+  background: #ffffff;
+  color: #00028f;
+}
+
+/* line 166, /app/app/assets/stylesheets/verse.css.scss */
+form {
+  display: inline;
+}
+
+/* line 170, /app/app/assets/stylesheets/verse.css.scss */
+fieldset legend {
+  color: #316ac5;
+}
+
+/* line 174, /app/app/assets/stylesheets/verse.css.scss */
+tr {
+  margin-top: 0;
+  border: none;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+/* line 181, /app/app/assets/stylesheets/verse.css.scss */
+body {
+  margin-left: 4px;
+  margin-right: 2px;
+}
+
+/* line 187, /app/app/assets/stylesheets/verse.css.scss */
+#helpText {
+  font-family: arial;
+}
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ *
+
+
+ */

@@ -1,0 +1,10 @@
+## views/shared/_paginator.rhtml
+<% if collection.page != collection.first_page and collection.page != collection.page_count -%>  
+<div class="paginate">
+<%= link_to_if collection.page != collection.first_page, '&lArr;', { :page => collection.first_page }, { :title => "First Page"} -%>
+  <%= link_to_if collection.previous_page?, '&larr;', { :page => collection.previous_page? }, { :title => "Page #{collection.previous_page?}"} -%>
+  <%= collection.page -%>
+  <%= link_to_if @search_results.next_page?, '&rarr;', { :page => collection.next_page? }, { :title => "Page #{collection.next_page?}"}-%>
+  <%= link_to_if collection.page != collection.page_count, '&rArr;', { :page => collection.page_count }, { :title => "Last Page"}-%>
+</div>
+<% end -%>
