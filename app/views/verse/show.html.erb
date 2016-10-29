@@ -3,14 +3,13 @@
     <div id="findFormDiv" class="findFormDiv">
     <fieldset id="findFieldset" class="bstFieldset" ><legend>Find Verse</legend>
       <!--<form id="bstForm" action="/verse/find" method="get"> -->
-      <%= form_tag('/verse/find', id: 'bstForm', method: 'get', remote: true ) %>
-      <div>
-        <label for="userVerse">Verse</label>
-        <input id="userVerse" name="userVerse" size="8" type="text" value="" onfocus="formInUse = true;" autocomplete="off" ></input>
-        <input name="commit" type="submit" value="Find"></input>
+      <%= form_tag("/verse/find", id: "bstForm", method: "get", remote: true ) do |f| %>
+  	<%= label_tag(:userVerse, "Verse") %>
+  	<%= text_field_tag(:userVerse, "", size: 8) %>
+  	<%= submit_tag("Find") %>
         <input name="reset" type="reset" value="Reset"></input>
-      </div>
-      </form>
+      <% end %>
+
         <div id="booksDiv" class="customPicker">
           <table id="booksTable" cellspacing="2"><tbody><tr><td>MAT</td><td>MAR</td><td>LUK</td><td>JON</td><td>ACT</td><td>ROM</td><td>1CO</td><td>2CO</td><td>GAL</td><td>EPH</td><td>PHL</td><td>COL</td><td>1TH</td><td>2TH</td></tr><tr><td>1TM</td><td>2TM</td><td>TIT</td><td>PHI</td><td>HEB</td><td>JAM</td><td>1PE</td><td>2PE</td><td>1JN</td><td>2JN</td><td>3JN</td><td>JUD</td><td>REV</td></tr>
           </tbody>

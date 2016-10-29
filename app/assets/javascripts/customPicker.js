@@ -338,7 +338,7 @@ CustomPicker.verseMouseDown = function(ev) {
     document.getElementById("booksTable").chapterDivDiv = null;
     document.getElementById("chapterDiv").verseDivDiv = null;    
   }
-  document.getElementById("bstForm").submit();
+  $("#bstForm").submit();
 };
 
 //CHAPTER MOUSE DOWN
