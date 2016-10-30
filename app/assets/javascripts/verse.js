@@ -198,23 +198,23 @@ function showDown(evt) {
         var ctrlKey = evt.ctrlKey? true : false;
         var altKey = evt.altKey? true : false;
         switch (K) {
-		    case 33: // KEY PageUp
-            document.getElementById('prevChapterCell').firstChild.firstChild.click();
+        case 33: // KEY PageUp
+            $("#prevChapterCell").click();
             break;
-		    case 34: // KEY PageDown
-            document.getElementById('nextChapterCell').firstChild.firstChild.click();
+        case 34: // KEY PageDown
+            $("#nextChapterCell").click();
             break;
         case 35: // KEY End        
-            document.getElementById('nextBookCell').firstChild.firstChild.click();
+            $("#nextBookCell").click();
             break;
         case 36: // KEY Home   
-            document.getElementById('prevBookCell').firstChild.firstChild.click();
+            $("#prevBookCell").click();
             break;
         case 38: // KEY Up arrow
-            document.getElementById('prevVerseCell').firstChild.firstChild.click();
+            $("#prevVerseCell").click();
             break;
         case 40: // KEY Down arrow        
-            document.getElementById('nextVerseCell').firstChild.firstChild.click();
+            $("#nextVerseCell").click();
             break;
         //case 123: //KEY F12
         //    if (shiftKey) {

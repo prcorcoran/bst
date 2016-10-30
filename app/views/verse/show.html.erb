@@ -49,18 +49,12 @@
 <div id="translationDiv" style="margin-top: 6px;"><%= @verse.kjv_bible.translation %></div>
 <table id="navigationTable">
   <tr align="center">
-    <td id="prevBookCell"><span title="Keyboard shortcut: Home key"><%= link_to( "Prev Book", 
-                      {:action => :prev_book, :id => @verse.id, :remote => true})%></span></td>
-    <td id="prevChapterCell"><span title="Keyboard shortcut: Page Up key"><%= link_to( "Prev Chapter", 
-                      {:action => :prev_chapter, :id => @verse.id, :remote => true})%></span></td>
-    <td id="prevVerseCell"><span title="Keyboard shortcut: Up Arrow key"><%= link_to( "Prev Verse", 
-                      {:action => :prev_verse, :id => @verse.id, :remote => true})%></span></td>
-    <td id="nextVerseCell"><span title="Keyboard shortcut: Down Arrow key"><%= link_to( "Next Verse", 
-                      {:action => :next_verse, :id => @verse.id, :remote => true})%></span></td>
-    <td id="nextChapterCell"><span title="Keyboard shortcut: Page Down key"><%= link_to( "Next Chapter", 
-                      {:action => :next_chapter, :id => @verse.id, :remote => true})%></span></td>
-    <td id="nextBookCell"><span title="Keyboard shortcut: End key"><%= link_to( "Next Book", 
-                      {:action => :next_book, :id => @verse.id, :remote => true})%></span></td>
+    <td><span title="Keyboard shortcut: Home key"><%= link_to( "Prev Book", verse_prev_book_path(@verse), :id => "prevBookCell", :remote => true)%></span></td>
+    <td><span title="Keyboard shortcut: Page Up key"><%= link_to( "Prev Chapter", verse_prev_chapter_path(@verse), :id => "prevChapterCell", :remote => true)%></span></td>
+    <td><span title="Keyboard shortcut: Up Arrow key"><%= link_to( "Prev Verse", verse_prev_verse_path(@verse), :id => "prevVerseCell", :remote => true)%></span></td>
+    <td><span title="Keyboard shortcut: Down Arrow key"><%= link_to( "Next Verse", verse_next_verse_path(@verse), :id => "nextVerseCell", :remote => true)%></span></td>
+    <td><span title="Keyboard shortcut: Page Down key"><%= link_to( "Next Chapter", verse_next_chapter_path(@verse), :id => "nextChapterCell", :remote => true)%></span></td>
+    <td><span title="Keyboard shortcut: End key"><%= link_to( "Next Book", verse_next_book_path(@verse), :id => "nextBookCell", :remote => true)%></span></td>
   </tr>
 </table>
 <div id="grammarTableDiv">

@@ -1,5 +1,3 @@
-<!DOCTYPE html>
-<html>
 <head>
   <title>Bst</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
@@ -7,18 +5,24 @@
   <%= csrf_meta_tags %>
 </head>
 <body onload="init();"  onkeydown="return showDown(event);" background="<%=@background %>">
-<div id="ctDiv" style="position: absolute; visibility: hidden; z-index: 1000;"></div>
-<div style="text-align: center">
-<div style="float: right"><%= link_to "Help", 
+<div id="wrapper">
+  <div id="content">
+    <div id="ctDiv" style="position: absolute; visibility: hidden; z-index: 1000;"></div>
+    <div style="text-align: center">
+      <div style="float: right"><%= link_to "Help", 
                  :controller => "verse", 
                  :action     => "show_help" %>
-</div>
-<div id="title"><b>BIBLE STUDY TOOLS</b></div>
-</div>
+      </div>
+      <div id="title"><b>BIBLE STUDY TOOLS</b></div>
+   </div>
 
 <%= yield %>
 
-<hr/>
-<p>Copyright &copy; 2006, "John White/Paul Corcoran"</p>
+  </div>
+  <div id="footer">
+    <hr/>
+    <p>Copyright &copy; 2016, "John White/Paul Corcoran"</p>
+  </div>
+</div>
 </body>
 </html>
