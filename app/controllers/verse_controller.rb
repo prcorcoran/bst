@@ -14,29 +14,25 @@ class VerseController < ApplicationController
       @search_results = session[:search_results] || []
       @search_results_index = session[:search_results_index] || 0
       @advanced_search_lines = session[:advanced_search_lines] || 3
+
    end
 
    def add_advanced_search_line
       @advanced_search_lines += 1
       session[:advanced_search_lines] = @advanced_search_lines
-      render :update do |page|
-        page.insert_html :bottom, 'advancedSearchTbody', :partial=> 'layouts/advanced_search_line', :locals => {:int => @advanced_search_lines}
-        js = 'setHeight();'
-        page << js
+      respond_to do |format|
+         format.js
       end
    end
    
    def remove_advanced_search_line
       if @advanced_search_lines > 1
         @advanced_search_lines -= 1
-        session[:advanced_search_lines] = @advanced_search_lines
-        render :update do |page|
-          page.remove "ad#{@advanced_search_lines + 1}"
-          js = ''
-          js << 'setHeight();'
-          page << js
+        session[:advanced_search_lines] = @advanced_search_lines 
+        respond_to do |format|
+         format.js
         end
-      end
+     end
    end
    
    def show_help

@@ -2,9 +2,11 @@
 <fieldset  id="advancedSearchFieldset" class="bstAdvancedFieldset"><legend>Word Search</legend>
 <%= form_tag({ :action => :advanced_search}, {:remote => true}) %>
 <div style = "float: right; top-margin: -.5em;">
-<%= link_to( "&nbsp;+&nbsp;".html_safe, {:action => :add_advanced_search_line, :remote => true}, {:class => 'button', :onmouseover => "coolTip('Add a search line.',MOUSEOFF, DELAY, 800);", :onmouseout => "nd();"})%>
+<span title="Add a search line."><%= link_to( "&nbsp;+&nbsp;".html_safe, {:action => :add_advanced_search_line, :remote => true}, {:class => 'button'})%>
+</span>
 <br/>
-<%= link_to( "&nbsp;-&nbsp;".html_safe, {:action => :remove_advanced_search_line, :remote => true}, {:href => "javascript: void(0);", :class => 'button', :onmouseover => "coolTip('Remove a search line.',MOUSEOFF, DELAY, 800);", :onmouseout => "nd();"})%>
+<span title="Remove a search line."><%= link_to( "&nbsp;-&nbsp;".html_safe, {:action => :remove_advanced_search_line, :remote => true}, {:class => 'button'})%>
+</span>
 </div>
 <div>
 <table>
