@@ -8,14 +8,25 @@ services:
 #      - DOCKER_HOST
     ports:
       - "80:80"
-#      - "443:443"
+      - "443:443"
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
-#      - /home/paulc/sbgc/certs:/etc/nginx/certs
+      - /home/paulc/certs:/etc/nginx/certs
       - /home/paulc/vhost.d:/etc/nginx/vhost.d:ro
-#      - /usr/share/nginx/html
+      - /usr/share/nginx/html
     networks:
       - front-end
+
+  letsencrypt:
+    image: alastaircoote/docker-letsencrypt-nginx-proxy-companion
+ #    image: jrcs/letsencrypt-nginx-proxy-companion
+    restart: always
+    volumes_from:
+      - proxy
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /home/paulc/certs:/etc/nginx/certs:rw
+      - /home/paulc/vhost.d:/etc/nginx/vhost.d:rw
 
   web:
 #    image: prcorcoran/sbgc:${SBGC_VERSION}
@@ -25,32 +36,13 @@ services:
       - mysql
       - proxy
     environment:
-      - VIRTUAL_HOST
+      - VIRTUAL_HOST=dev.biblestudytoolsweb.com
       - VIRTUAL_PORT
       - RAILS_ENV
       - RACK_ENV
-#      - SECRET_KEY_BASE
-#      - MAIL_USERNAME
-#      - MAIL_PASSWORD
-#      - MAIL_DOMAIN
-#      - MAIL_ADDRESS
-#      - MAIL_PORT
-#      - AMAZON_S3_AWSACCESSKEYID
-#      - AMAZON_S3_AWSSECRETKEY
-#      - AMAZON_S3_AWSBUCKETNAME
-#      - STRIPE_SECRET_KEY
-#      - STRIPE_PUBLISHABLE_KEY
-#      - POSTGRES_DATABASE
-#      - POSTGRES_USERNAME
-#      - POSTGRES_PASSWORD
-#      - SBGC_ENVIRONMENT
-#      - MAILCHIMP_API_KEY
-#      - PAYPAL_SANDBOX
-#      - PAYPAL_USERNAME
-#      - PAYPAL_PASSWORD
-#      - PAYPAL_SIGNATURE
-#      - REDIS_URL
-#      - "constraint:web==true"
+      - BST_SECRET_KEY_BASE
+      - LETSENCRYPT_HOST=dev.biblestudytoolsweb.com
+      - LETSENCRYPT_EMAIL=prcorcoran@gmail.com
     ports:
       - "3000"
     command: bundle exec puma -C config/puma.rb
@@ -66,8 +58,6 @@ services:
   log_manager:
     image: gliderlabs/logspout
     restart: always
-#    environment:
-#      - "constraint:primary==true"
     ports:
       - "8000:8000"
     volumes:
