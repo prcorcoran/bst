@@ -28,7 +28,7 @@ services:
       - /home/paulc/certs:/etc/nginx/certs:rw
       - /home/paulc/vhost.d:/etc/nginx/vhost.d:rw
 
-  web:
+  bst:
 #    image: prcorcoran/sbgc:${SBGC_VERSION}
     image: bst
     restart: always
@@ -36,13 +36,13 @@ services:
       - mysql
       - proxy
     environment:
-      - VIRTUAL_HOST=dev.biblestudytoolsweb.com
+      - VIRTUAL_HOST=$BST_VIRTUAL_HOST
       - VIRTUAL_PORT
       - RAILS_ENV
       - RACK_ENV
       - BST_SECRET_KEY_BASE
-      - LETSENCRYPT_HOST=dev.biblestudytoolsweb.com
-      - LETSENCRYPT_EMAIL=prcorcoran@gmail.com
+      - LETSENCRYPT_HOST=$BST_VIRTUAL_HOST
+      - LETSENCRYPT_EMAIL$BST_LETSENCRYPT_EMAIL
     ports:
       - "3000"
     command: bundle exec puma -C config/puma.rb
@@ -51,8 +51,8 @@ services:
       - back-end
   # Development tip: uncomment the following 2 lines. This share mounts the rails directory into the container so we don't have to rebuild the image
   # after every change.
-    volumes:
-      - .:/app/
+  #  volumes:
+  #    - .:/app/
   # However, in production, it will cause problems scaling multiple web containers because the tmp/pids directory is shared.
 
   log_manager:
