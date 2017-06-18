@@ -4,12 +4,12 @@
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
-<body onload="init();"  onkeydown="return showDown(event);" background="<%=@background %>">
+<body>
 <div id="wrapper">
   <div id="content">
-    <div id="ctDiv" style="position: absolute; visibility: hidden; z-index: 1000;"></div>
-    <div style="text-align: center">
-      <div style="float: right"><%= link_to "Help", 
+    <div id="ctDiv"></div>
+    <div id="header">
+      <div class="help"><%= link_to "Help", 
                  :controller => "verse", 
                  :action     => "show_help" %>
       </div>
@@ -21,7 +21,7 @@
   </div>
   <div id="footer">
     <hr/>
-    <p>Copyright &copy; 2016, "John White/Paul Corcoran"</p>
+    <p>Copyright &copy; 1999-2017, "John White/Paul Corcoran"</p>
   </div>
 </div>
 </body>

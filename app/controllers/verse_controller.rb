@@ -44,7 +44,6 @@ class VerseController < ApplicationController
       js = 'document.getElementById("searchFormDiv").className = "invisible";'
       js << 'document.getElementById("advancedSearchFormDiv").className = "visible";'
       js << 'setHeight();'
-puts "!!!! here"
      respond_to do |format|
          format.js { render :text => js }
      end
@@ -83,7 +82,6 @@ puts "!!!! here"
    #Ajax. Show the verse identified by the cgi :id variable or the first verse if there is none. Also, set the search_results_index of the search results collection
    #if the requested verse is in the search_results collection. We should only get when a search verse link has been clicked by the user.
    def show_ajax
-puts "@@ show_ajax params = #{params.inspect}"
        if @search_results.index(params[:id].to_i) != nil
           @search_results_index = @search_results.index(params[:id].to_i)
           session[:search_results_index] = @search_results_index
@@ -197,12 +195,10 @@ puts "@@ show_ajax params = #{params.inspect}"
 
    #AJAX. Search for word(s) without grammar. I was able to abstract a common search routine for both simple and advanced searches.
    def search
-puts "## SEARCH"
       begin
          #flash.clear
          advanced_search
       rescue Exception => exc
-puts "EXCEPTION = #{exc.inspect}"
          #NOTE: The @verse variable ends up being nil when referenced in the view for some odd reason. Must have something to do with the exception
          if exc.class == ActiveRecord::RecordNotFound
             flash[:error] = "There was a problem finding verse #{params[:userVerse]} in the bible. Please enter a valid verse of the form MAT 20:1"
@@ -218,8 +214,6 @@ puts "EXCEPTION = #{exc.inspect}"
    #AJAX. Search word with or without grammar. Note: the strongs number can be missing and that is OK.
    #Note: the search results are instances of Word and not Verse.
    def advanced_search
-puts "@@ advance_search <NEW>"
-puts "@@ params = #{params.inspect}"
       if params[:action] == "search"
         counter = 0
         parameters = params[:searchWord].split(/ /).inject({}) {| hash, strongs_number |
@@ -255,7 +249,6 @@ puts "@@ params = #{params.inspect}"
          conditionsForAny += conditions + ")"
          conditionsForAllPhrase  << "(" + conditions + ")"
        end
-puts "@@ gere @@"
       #Build the SQL conditions for the query
       case params[:search_type]
         when "All"
@@ -265,7 +258,7 @@ puts "@@ gere @@"
             end
 
         when "Any"
-           sqlConditions = "words.verse_id = verses.id and " + conditionsForAny
+           sqlConditions =  conditionsForAny
         when "Phrase"
            sqlConditions = conditionsForAllPhrase [0]
            1.upto(conditionsForAllPhrase .size-1) do |index|
@@ -275,14 +268,10 @@ puts "@@ gere @@"
 
       #Submit the SQL. We use parameter tokens to prevent SQL injection attacks. Why not just get Verse objects? I would like to but the
       #database is way to slow if I change Word to Verse and remove the include. It does return the correct result set though.
-puts "@@ sqlConditions = #{sqlConditions.inspect}"
-puts "@@ paramArray = #{paramArray.inspect}"
       @search_results = Word.includes(:verse).where(sqlConditions, paramArray)      
       #Get rid of duplicate search results. The database is too slow when we use distinct so we will do it ourselves.
-puts "@@ advanced search results size = #{@search_results.size.to_s}"
 if @search_results.size > 4000
    #raise "Search results are greater than 4000. Please narrow down your search."
-puts "here before raise error"
    raise "The search yielded too many results (#{@search_results.size.to_s}). Please narrow down the search to 4000 results or fewer."
 end
       unique_search_results = RaaOrderedHash[]
@@ -353,12 +342,10 @@ end
          end
          session[:search_results] = []
          session[:currentVerse] = @verse.id.to_s
-puts "verse in find method = #{@verse.inspect}"
          show_verse_ajax(@verse.id)
 	 #render :search #(:template => "verse/search") #show")
 
       rescue Exception => exc
-puts "EXCEPTION = #{exc.inspect}"
          #NOTE: The @verse variable ends up being nil when referenced in the view for some odd reason. Must have something to do with the exception
          if exc.class == ActiveRecord::RecordNotFound
             flash[:error] = "There was a problem finding verse #{params[:userVerse]} in the bible. Please enter a valid verse of the form MAT 20:1"
@@ -372,7 +359,7 @@ puts "EXCEPTION = #{exc.inspect}"
    #Clear the search results collection
    def clear_search_results
       @search_results = []
-puts "Clear search results #{params.inspect}"
+      session[:search_results] = []
       render :search
 #      session[:search_results] = []
 #      session[:search_results_index] = 0        
@@ -530,7 +517,6 @@ puts "Clear search results #{params.inspect}"
          word = @verse.words[index]
          search_matches = match_search_criteria(word, session[:search_words] || [], search_word_orders) 
          #puts "\nmatches=#{matches.inspect} word_order=#{word.word_order} serach_words=#{session[:search_words].inspect} search_wrods_orders=#{search_word_orders}\n"
-
          #Create tr
          js << 'tr = document.createElement("tr");'
          js << 'tbody.appendChild(tr);'
@@ -542,7 +528,7 @@ puts "Clear search results #{params.inspect}"
          #Create td - strongs nbr
          js << 'td = document.createElement("td");'
          js << 'tr.appendChild(td);'
-         js << 'td.className = "hiliteSearchWord";' unless search_matches["strong_number_id"] == nil
+         js << 'td.className = "hiliteSearchWord";' unless !@search_results.include?(@verse.id) || search_matches["strong_number_id"] == nil
          #Note: XHTML does not support span here. js << 'td.innerHTML = "<span title=' + "'Click to search'" + '>' + sprintf("%04d", word.strong_number_id) + '</span>";'
          js << 'td.innerHTML = "<span title=' + "'Click to search'" + '>' + sprintf("%04d", word.strong_number_id) + '</span>";'
          #js << 'td.innerHTML = "' + sprintf("%04d", word.strong_number_id) + '";'
@@ -555,23 +541,23 @@ puts "Clear search results #{params.inspect}"
          #Create td - tense/gender
          js << 'td = document.createElement("td");'
          js << 'tr.appendChild(td);'
-         js << 'td.className = "hiliteSearchWord";' unless search_matches["grammar_tense_gender_code_id"] == nil
+         js << 'td.className = "hiliteSearchWord";' unless !@search_results.include?(@verse.id) || search_matches["grammar_tense_gender_code_id"] == nil
          js << 'td.innerHTML = "' + word.grammar_tense_gender_code.descr + '";'
          #Create td - voice/case
          js << 'td = document.createElement("td");'
          js << 'tr.appendChild(td);'
-         js << 'td.className = "hiliteSearchWord";' unless search_matches["grammar_voice_case_code_id"] == nil
+         js << 'td.className = "hiliteSearchWord";' unless !@search_results.include?(@verse.id) || search_matches["grammar_voice_case_code_id"] == nil
          js << 'td.innerHTML = "' + word.grammar_voice_case_code.descr + '";'
          #Create td - mode
          js << 'td = document.createElement("td");'
          js << 'tr.appendChild(td);'
          js << 'td.className = "' + (word.grammar_mode_code.descr == "nom" ? "nomCase" : "") + '";'
-         js << 'td.className = "hiliteSearchWord";' unless search_matches["grammar_mode_code_id"] == nil
+         js << 'td.className = "hiliteSearchWord";' unless !@search_results.include?(@verse.id) || search_matches["grammar_mode_code_id"] == nil
          js << 'td.innerHTML = "' + word.grammar_mode_code.descr + '";'
          #Create td - number/person
          js << 'td = document.createElement("td");'
          js << 'tr.appendChild(td);'
-         js << 'td.className = "hiliteSearchWord";' unless search_matches["grammar_number_person_code_id"] == nil
+         js << 'td.className = "hiliteSearchWord";' unless !@search_results.include?(@verse.id) || search_matches["grammar_number_person_code_id"] == nil
          js << 'td.innerHTML = "' + word.grammar_number_person_code.descr + '";'
          #Create td - partciple/case
          js << 'td = document.createElement("td");'
@@ -579,7 +565,7 @@ puts "Clear search results #{params.inspect}"
          case word.grammar_participle_case_code.descr
           when "---verb"  then js << 'td.className = "verb";'
           when "---infn"  then js << 'td.className = "verb";'
-          else js << 'td.className = "hiliteSearchWord";' unless search_matches["grammar_participle_case_code_id"] == nil
+          else js << 'td.className = "hiliteSearchWord";' unless !@search_results.include?(@verse.id) || search_matches["grammar_participle_case_code_id"] == nil
          end
          js << 'td.innerHTML = "' + word.grammar_participle_case_code.descr + '";'
          #Create td - translation
@@ -593,7 +579,6 @@ puts "Clear search results #{params.inspect}"
    # Generate the Javascript to display the Search Results Table. This does two things for us. It lets us use Ajax and IE doesn't support
    # changing tables in the DOM.
    def get_search_results_javascript
-puts "get_search_results_javascript #{params.inspect}"
       if @search_results.empty?
           return ""
       end

@@ -1,5 +1,15 @@
 
 //Set both the Find and Search group boxes to the same height
+jQuery.ready();
+window.onload = function () {
+  init();
+  document.body.onkeydown = function(e){
+    showDown();
+//    alert(String.fromCharCode(e.keyCode)+" --> "+e.keyCode);
+  };
+
+// document.body.addEventListener('onkeydown',showDown());
+};
 originalHeight = 0;
 function setHeight() { 
   //alert(originalHeight);
@@ -223,7 +233,12 @@ function showDown(evt) {
         //    return false;
         case 115: // KEY F4        
             if (shiftKey) {
-              var request = new Ajax.Request('/verse/key_F4_pressed/prev', {asynchronous:true, evalScripts:true});
+              //var request = new Ajax.Request('/verse/key_F4_pressed/prev', {asynchronous:true, evalScripts:true});
+              $.ajax({
+                 url: '/verse/key_F4_pressed/prev',
+                 async: true,
+                 dataType: 'script'
+              });
               //document.location.href='/verse/keyF4Pressed/prev'
               //request.transport.abort();
               if (document.all && window.event && !event.preventDefault) {
@@ -246,7 +261,14 @@ function showDown(evt) {
             break;
         case 116: // KEY F5        
             if (shiftKey) {
-              new Ajax.Request('/verse/key_F5_pressed/prev', {asynchronous:true, evalScripts:true});
+
+              $.ajax({
+                 url: '/verse/key_F5_pressed/prev',
+                 async: true,
+                 dataType: 'script'
+              });
+
+             // new Ajax.Request('/verse/key_F5_pressed/prev', {asynchronous:true, evalScripts:true});
               if (document.all && window.event && !event.preventDefault) {
                 event.cancelBubble = true;
                 event.returnValue = false;
@@ -254,7 +276,14 @@ function showDown(evt) {
               }
               return false;
             } else {
-              new Ajax.Request('/verse/key_F5_pressed/next', {asynchronous:true, evalScripts:true});
+              $.ajax({
+                 url: '/verse/key_F5_pressed/next',
+                 async: true,
+                 dataType: 'script'
+              });
+              
+
+//              new Ajax.Request('/verse/key_F5_pressed/next', {asynchronous:true, evalScripts:true});
               if (document.all && window.event && !event.preventDefault) {
                 event.cancelBubble = true;
                 event.returnValue = false;

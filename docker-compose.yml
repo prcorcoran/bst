@@ -3,9 +3,6 @@ services:
   proxy:
     image: jkuo/nginx-proxy
     restart: always
-#    environment:
-#      - "constraint:primary==true"
-#      - DOCKER_HOST
     ports:
       - "80:80"
       - "443:443"
@@ -19,7 +16,6 @@ services:
 
   letsencrypt:
     image: alastaircoote/docker-letsencrypt-nginx-proxy-companion
- #    image: jrcs/letsencrypt-nginx-proxy-companion
     restart: always
     volumes_from:
       - proxy
@@ -29,12 +25,12 @@ services:
       - /home/paulc/vhost.d:/etc/nginx/vhost.d:rw
 
   bst:
-#    image: prcorcoran/sbgc:${SBGC_VERSION}
     image: bst
     restart: always
     depends_on:
       - mysql
       - proxy
+      - session_store
     environment:
       - VIRTUAL_HOST=$BST_VIRTUAL_HOST
       - VIRTUAL_PORT
@@ -55,6 +51,16 @@ services:
   #    - .:/app/
   # However, in production, it will cause problems scaling multiple web containers because the tmp/pids directory is shared.
 
+  session_store:
+    image: memcached
+    restart: always
+    ports:
+      - "11211:11211"
+    environment:
+      - CACHESIZE=10
+    networks:
+      - back-end
+
   log_manager:
     image: gliderlabs/logspout
     restart: always
@@ -70,28 +76,12 @@ services:
   mysql:
     image: mysql 
     restart: always
-#    environment:
-#      - "constraint:primary==true"
     environment:
       -  MYSQL_ROOT_PASSWORD=root
     ports:
       - 3306:3306
     networks:
       - back-end
-
-#  database-mysql:
-#    image: "mariadb"
-#    mem_limit: "256m"
-#    container_name: "example-mysql"
-#    volumes:
-#      - "db-data:/var/lib/mysql"
-#    environment:
-#      - "MYSQL_ROOT_PASSWORD=XXXX"
-#      - "MYSQL_DATABASE=example"
-#      - "MYSQL_USER=example"
-#      - "MYSQL_PASSWORD=XXXXX"
-#    networks:
-#      - "db-tier"
 
 networks:
   front-end:

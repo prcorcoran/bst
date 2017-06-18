@@ -39,5 +39,6 @@ Rails.application.configure do
   # config.action_view.raise_on_missing_translations = true
 
   config.action_dispatch.default_headers['X-Frame-Options'] = "ALLOW-FROM https://gracebiblechurch.us"
-
+  config.cache_store = :dalli_store, 'bst_session_store_1',
+    { :namespace => 'bst', :expires_in => 1.day, :compress => true }
 end
