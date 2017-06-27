@@ -400,7 +400,7 @@ end
    def get_grammar_table_javascript
       session[:currentVerse] = @verse.id.to_s 
       #Display the tranlastion of the verse
-      js = 'document.getElementById("translationDiv").innerHTML = "' + CGI.escapeHTML(@verse.kjv_bible.translation.strip) + '";'      
+      js = 'document.getElementById("translationDiv").innerHTML = "' + @verse.book + " " + @verse.chapter.to_s + ":" + @verse.verse.to_s + "  " + CGI.escapeHTML(@verse.kjv_bible.translation.strip) + '";'      
 
       #Initialization
       js << 'var div = null;'
