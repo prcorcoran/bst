@@ -1,33 +1,10 @@
-# SQLite version 3.x
-#   gem install sqlite3
-#
-#   Ensure the SQLite 3 gem is defined in your Gemfile
-#   gem 'sqlite3'
-#
-#default: &default
-#  adapter: sqlite3
-#  pool: 5
-#  timeout: 5000
-# MySQL (default setup).  Versions 4.1 and 5.0 are recommended.
-#
-# Install the MySQL driver:
-#   gem install mysql
-# On MacOS X:
-#   gem install mysql -- --include=/usr/local/lib
-# On Windows:
-#   There is no gem for Windows.  Install mysql.so from RubyForApache.
-#   http://rubyforge.org/projects/rubyforapache
-#
-# And be sure to use new-style password hashing:
-#   http://dev.mysql.com/doc/refman/5.0/en/old-client.html
 development:
   adapter: mysql
   database: bst_production #bst_development
   host: mysql        #this needs to match the label for mysql in col 1 in docker-compose.yml 
-  username: root
-  password: root
+  username: <%= Rails.application.secrets.mysql_username %>
+  password: <%= Rails.application.secrets.mysql_username %>
   port: 3306
-
 
 # Warning: The database defined as 'test' will be erased and
 # re-generated from your development database when you run 'rake'.
@@ -36,13 +13,14 @@ test:
   adapter: mysql
   database: bst_test
   host: mysql        #this needs to match the label for mysql in col 1 in docker-compose.yml 
-  username: root
-  password: root
+  username: <%= Rails.application.secrets.mysql_username %>
+  password: <%= Rails.application.secrets.mysql_username %>
+  port: 3306
 
 production:
   adapter: mysql
   database: bst_production
   host: mysql        #this needs to match the label for mysql in col 1 in docker-compose.yml 
-  username: root
-  password: root
+  username: <%= Rails.application.secrets.mysql_username %>
+  password: <%= Rails.application.secrets.mysql_username %>
   port: 3306
