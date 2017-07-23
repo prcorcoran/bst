@@ -24,7 +24,7 @@ services:
       - /home/paulc/certs:/etc/nginx/certs:rw
       - /home/paulc/vhost.d:/etc/nginx/vhost.d:rw
 
-  bst:
+  web:
     image: bst
     restart: always
     depends_on:
@@ -37,6 +37,8 @@ services:
       - RAILS_ENV
       - RACK_ENV
       - BST_SECRET_KEY_BASE
+      - BST_MYSQL_USERNAME
+      - BST_MYSQL_PASSWORD
       - LETSENCRYPT_HOST=$BST_VIRTUAL_HOST
       - LETSENCRYPT_EMAIL$BST_LETSENCRYPT_EMAIL
     ports:
