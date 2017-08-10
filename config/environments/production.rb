@@ -79,5 +79,5 @@ Rails.application.configure do
   #config.action_controller.session_store = :mem_cache_store
   #config.cache_store = :mem_cache_store
   config.cache_store = :dalli_store, 'bst_session_store_1',
-    { :namespace => 'bst', :expires_in => 1.day, :compress => true }
+    { :namespace => 'bst', :expires_in => 7.day, :compress => true }
 end
