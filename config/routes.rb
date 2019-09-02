@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
    root 'verse#show'
 #match ':controller/:action/:id', via: [:get, :post]
+   get 'verse' => 'verse#show'
    get 'verse/search'
    get 'verse/add_advanced_search_line'
    get 'verse/remove_advanced_search_line'

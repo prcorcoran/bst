@@ -1,8 +1,18 @@
+ssh root@206.189.201.230 pw rxxx1
+
+-- if you get this error do the following:
+Mysql::Error: Table 'performance_schema.session_variables' doesn't exist: SHOW VARIABLES WHERE Variable_name = 'character_set_client'
+docker exec -it sbgc_mysql_1 mysql -uroot -proot
+set @@global.show_compatibility_56=ON;
+
 -- getting setup
 docker run --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root -d mysql
 docker exec -i mysql mysql -uroot -proot < backup_bst_production_20160405_1615.sql
-docker exec -it mysql mysql -uroot -proot
-  >mysql select * from bst_production.kjv_bible;
+
+docker run --name sbgc_mysql_1 -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root -d mysql
+docker exec -i sbgc_mysql_1 mysql -uroot -proot < backup_bst_production_20160405_1615.sql
+docker exec -it sbgc_mysql_1 mysql -uroot -proot
+  > select * from bst_production.kjv_bible;
 
 $ export VIRTUAL_HOST=104.236.11.136
 

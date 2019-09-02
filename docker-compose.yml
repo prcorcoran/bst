@@ -1,28 +1,30 @@
 version: '2'
 services:
   proxy:
+    # image: nginx
     image: jkuo/nginx-proxy
+    container_name: proxy
     restart: always
     ports:
       - "80:80"
       - "443:443"
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
-      - /home/paulc/certs:/etc/nginx/certs
-      - /home/paulc/vhost.d:/etc/nginx/vhost.d:ro
-      - /usr/share/nginx/html
-    networks:
-      - front-end
+      - /root/bst/public:/usr/share/nginx/html
+      - /root/bst/certs:/etc/nginx/certs
+      - /root/bst/vhost.d:/etc/nginx/vhost.d:ro
 
   letsencrypt:
-    image: alastaircoote/docker-letsencrypt-nginx-proxy-companion
+    image: jrcs/letsencrypt-nginx-proxy-companion
     restart: always
     volumes_from:
       - proxy
+    environment:
+      - ACME_TOS_HASH=cc88d8d9517f490191401e7b54e9ffd12a2b9082ec7a1d4cec6101f9f1647e7b
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - /home/paulc/certs:/etc/nginx/certs:rw
-      - /home/paulc/vhost.d:/etc/nginx/vhost.d:rw
+      - /root/bst/certs:/etc/nginx/certs:rw
+      - /root/bst/vhost.d:/etc/nginx/vhost.d:rw
 
   bst:
     image: bst
@@ -32,59 +34,34 @@ services:
       - proxy
       - session_store
     environment:
-      - VIRTUAL_HOST=$BST_VIRTUAL_HOST
+      - VIRTUAL_HOST=gracebiblechurch.us,www.gracebiblechurch.us
       - VIRTUAL_PORT
-      - RAILS_ENV
-      - RACK_ENV
-      - BST_SECRET_KEY_BASE
-      - LETSENCRYPT_HOST=$BST_VIRTUAL_HOST
-      - LETSENCRYPT_EMAIL$BST_LETSENCRYPT_EMAIL
+      - RAILS_ENV=production
+      - RACK_ENV=production
+      - BST_SECRET_KEY_BASE=f4f1329071e027635104feb3090a0dda02d80a965438d82b8140b49d5f809f27cd06fea14ab862cb27accb8c77ec09e4a2858149eebedbce633a6c567f1f1e0c
+      - LETSENCRYPT_HOST=gracebiblechurch.us,www.gracebiblechurch.us
+      - LETSENCRYPT_EMAIL=prcorcoran@gmail.com
     ports:
-      - "3000"
+      - "3000:3000"
     command: bundle exec puma -C config/puma.rb
-    networks:
-      - front-end
-      - back-end
   # Development tip: uncomment the following 2 lines. This share mounts the rails directory into the container so we don't have to rebuild the image
   # after every change.
   #  volumes:
   #    - .:/app/
   # However, in production, it will cause problems scaling multiple web containers because the tmp/pids directory is shared.
 
-  session_store:
-    image: memcached
-    restart: always
-    ports:
-      - "11211:11211"
-    environment:
-      - CACHESIZE=10
-    networks:
-      - back-end
-
-  log_manager:
-    image: gliderlabs/logspout
-    restart: always
-    ports:
-      - "8000:8000"
-    volumes:
-      - /var/run/docker.sock:/tmp/docker.sock
-    command: syslog://${PAPERTRAIL_DEST}
-    networks:
-      - back-end
-
-
   mysql:
-    image: mysql 
+    image: mysql:5.7.18
     restart: always
     environment:
       -  MYSQL_ROOT_PASSWORD=root
     ports:
       - 3306:3306
-    networks:
-      - back-end
 
-networks:
-  front-end:
-    driver: bridge
-  back-end:
-    driver: bridge
+  session_store:
+    image: memcached
+    restart: always
+    ports:
+      - "11211"
+    environment:
+      - CACHESIZE=10

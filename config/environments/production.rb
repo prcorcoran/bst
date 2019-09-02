@@ -78,6 +78,6 @@ Rails.application.configure do
   config.action_dispatch.default_headers['X-Frame-Options'] = "ALLOW-FROM https://gracebiblechurch.us"
   #config.action_controller.session_store = :mem_cache_store
   #config.cache_store = :mem_cache_store
-  config.cache_store = :dalli_store, 'bst_session_store_1',
+  config.cache_store = :dalli_store, 'session_store',
     { :namespace => 'bst', :expires_in => 1.day, :compress => true }
 end

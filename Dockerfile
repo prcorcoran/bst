@@ -12,7 +12,7 @@ RUN mkdir /app
 WORKDIR /tmp
 
 COPY Gemfile Gemfile.lock /tmp/
-RUN gem install bundler && bundle install --jobs 20
+RUN gem install bundler -v 1.15.1 && bundle _1.15.1_ install --jobs 20
 
 ADD . /app
 
