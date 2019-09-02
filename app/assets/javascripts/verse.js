@@ -5,14 +5,11 @@ window.onload = function () {
   init();
   document.body.onkeydown = function(e){
     showDown();
-//    alert(String.fromCharCode(e.keyCode)+" --> "+e.keyCode);
   };
 
-// document.body.addEventListener('onkeydown',showDown());
 };
 originalHeight = 0;
 function setHeight() { 
-  //alert(originalHeight);
   var height = document.getElementById('headerDiv').offsetHeight;
   //Save the original height
   if (originalHeight == 0) {
@@ -22,7 +19,6 @@ function setHeight() {
   var hFind = document.getElementById('findFormDiv').offsetHeight;
   var hAdvancedSearch = document.getElementById('advancedSearchFormDiv').offsetHeight;  
   var hSearch = document.getElementById('searchFormDiv').offsetHeight;  
-  //alert("header=" + height + '-' + "hFind=" + hFind+ " - " + "hSearch=" + hSearch+ " - " + "hAdvancedSearch=" + hAdvancedSearch);
   var a = document.getElementById('findFieldset');
   var margins;
   // Mozilla: getComputedStyle
@@ -39,8 +35,7 @@ function setHeight() {
      margins += 0;
    // IE: currentStyle
    } else if (a.currentStyle) {
-    //document.recalc(true);
-   	var elm = document.getElementById('headerDiv');
+	var elm = document.getElementById('headerDiv');
     elm.style.height = 'auto';
     var height = elm.offsetHeight; 
     margins = 0;
@@ -59,30 +54,18 @@ function setHeight() {
 
   //Don't allow the Find div to be set below the original height
   if (searchHeight > originalHeight) {
-  //alert(searchHeight +'>'+ originalHeight);
     document.getElementById("findFieldset").style.height = searchHeight - margins + 'px';  
   } else {
       if (document.getElementById('advancedSearchFormDiv').className == "invisible") {
         document.getElementById('searchFieldset').style.height = hFind - margins + 'px';
       } else {
-      //alert (document.getElementById('advancedSearchFieldset').offsetHeight );
         document.getElementById('advancedSearchFieldset').style.height = hFind - margins + 'px';    
       }
   }
 
-//document.getElementById("findFieldset").style.height = height - margins + 'px';  
-//  if (document.getElementById('advancedSearchFormDiv').className == "invisible") {
-//    document.getElementById('searchFieldset').style.height = height - margins + 'px';
-//  } else {
-  //alert (document.getElementById('advancedSearchFieldset').offsetHeight );
-//    document.getElementById('advancedSearchFieldset').style.height = height - margins + 'px';    
-//  }
-
 }
 
 function hideShowSearchResults() {
-  //new Ajax.Request('/verse/clearSearchResults', {asynchronous:true, evalScripts:true});
-  //location.href="/verse/clearSearchResults";
   if (document.getElementById("searchResultsTable") == null) {
     document.getElementById("clearSearchResults").className="invisible";
     document.getElementById("hideShowSearchResults").className="invisible";
@@ -103,7 +86,6 @@ function hideShowSearchResults() {
 //The strongs number cell was clicked in the main table. Here we want to set the selected strongs number into the Search form for the user.
 function editCell (cell) {
   if (document.getElementById("advancedSearchFormDiv").className != "invisible") {
-    //searchWords = document.getElementsByName("strong_number_id")
     for (i=1; i < 30; i++) {
       if (document.getElementById("searchWord" + i) != null && document.getElementById("searchWord" + i).value == "") {
           setGrammarOptions (cell, i);
@@ -152,7 +134,6 @@ function printCSSRules() {
     for(j=0; j<ss[0].cssRules.length; j++)
     {
       dump( ss[i].cssRules[j].style.selectorText + "\n" );
-    //  document.write(ss[i].cssRules[j].style.selectorText + "\n"); 
     }
   }
   
@@ -192,9 +173,6 @@ function init(){
     //Set the height of both find and Serach group boxes to the same height.
     setHeight();
   }
-  //var sizeBorder = new SizeBorder(document.getElementById("sizeBorder"),document.getElementById("headerDiv"));
-  //document.getElementById("headerDiv").style.marginBottom = "-50px";
-  //sizeBorder.registerEvents();
 };
 
 // decipher key press codes
@@ -226,21 +204,13 @@ function showDown(evt) {
         case 40: // KEY Down arrow        
             $("#nextVerseCell").click();
             break;
-        //case 123: //KEY F12
-        //    if (shiftKey) {
-        //       printCSSRules();
-        //    }
-        //    return false;
         case 115: // KEY F4        
             if (shiftKey) {
-              //var request = new Ajax.Request('/verse/key_F4_pressed/prev', {asynchronous:true, evalScripts:true});
               $.ajax({
                  url: '/verse/key_F4_pressed/prev',
                  async: true,
                  dataType: 'script'
               });
-              //document.location.href='/verse/keyF4Pressed/prev'
-              //request.transport.abort();
               if (document.all && window.event && !event.preventDefault) {
                 event.cancelBubble = true;
                 event.returnValue = false;
@@ -249,8 +219,6 @@ function showDown(evt) {
               return false;
             } else {
               hideShowSearchResults ();
-             //new Ajax.Request('/verse/keyF4Pressed/next', {asynchronous:true, evalScripts:true});
-             // request.transport.abort();
               if (document.all && window.event && !event.preventDefault) {
                 event.cancelBubble = true;
                 event.returnValue = false;
@@ -268,7 +236,6 @@ function showDown(evt) {
                  dataType: 'script'
               });
 
-             // new Ajax.Request('/verse/key_F5_pressed/prev', {asynchronous:true, evalScripts:true});
               if (document.all && window.event && !event.preventDefault) {
                 event.cancelBubble = true;
                 event.returnValue = false;
@@ -283,7 +250,6 @@ function showDown(evt) {
               });
               
 
-//              new Ajax.Request('/verse/key_F5_pressed/next', {asynchronous:true, evalScripts:true});
               if (document.all && window.event && !event.preventDefault) {
                 event.cancelBubble = true;
                 event.returnValue = false;

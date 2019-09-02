@@ -26,7 +26,7 @@ services:
       - /root/bst/certs:/etc/nginx/certs:rw
       - /root/bst/vhost.d:/etc/nginx/vhost.d:rw
 
-  bst:
+  web:
     image: bst
     restart: always
     depends_on:
@@ -38,9 +38,9 @@ services:
       - VIRTUAL_PORT
       - RAILS_ENV=production
       - RACK_ENV=production
-      - BST_SECRET_KEY_BASE=f4f1329071e027635104feb3090a0dda02d80a965438d82b8140b49d5f809f27cd06fea14ab862cb27accb8c77ec09e4a2858149eebedbce633a6c567f1f1e0c
       - LETSENCRYPT_HOST=gracebiblechurch.us,www.gracebiblechurch.us
       - LETSENCRYPT_EMAIL=prcorcoran@gmail.com
+      - BST_SECRET_KEY_BASE
     ports:
       - "3000:3000"
     command: bundle exec puma -C config/puma.rb

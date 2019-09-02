@@ -1,7 +1,5 @@
 class VerseController < ApplicationController
-#   require 'rubygems'
    require 'raa_ordered_hash'
-   #require 'ruby-debug'
 
    BOOKCHAPTERS = RaaOrderedHash["MAT", 28, "MAR", 16, "LUK", 24, "JON", 21, "ACT", 28, "ROM", 16, "1CO", 16, "2CO", 13, "GAL", 6, "EPH", 6, "PHL", 4, "COL", 4, "1TH", 5, "2TH", 3, "1TM", 6, "2TM", 4, "TIT", 3, "PHI", 1, "HEB", 13, "JAM", 5, "1PE", 5, "2PE", 3, "1JN", 5, "2JN", 1, "3JN", 1, "JUD", 1, "REV", 22]
 
@@ -61,24 +59,11 @@ class VerseController < ApplicationController
      end
    end
 
-   #Just a stub for login which we are not supporting at this time
-   def login
-      userid = params[:userid]
-      password = params[:password]
-      if not userid == "userid" and password == "password"
-         render(:template => "verse/loginfailed")
-      end
-   end
-
    #Show the verse identified by the cgi :id variable or the first verse if there is none.
    def show
       show_verse(params[:id] || 1)      
     end
     
-   #Show the verse identified by the cgi :id variable or the first verse if there is none.
-   def x
-   end
-
    #Ajax. Show the verse identified by the cgi :id variable or the first verse if there is none. Also, set the search_results_index of the search results collection
    #if the requested verse is in the search_results collection. We should only get when a search verse link has been clicked by the user.
    def show_ajax
@@ -116,8 +101,6 @@ class VerseController < ApplicationController
             nextChapter = 1
          end
       end
-      #paramArray = {:book => book, :chapter => nextChapter, :verse => 1}
-      #@verse = Verse.find(:first, :conditions => ["book = :book and chapter = :chapter and verse = :verse", paramArray])
       @verse = Verse.where("book = ? and chapter = ? and verse = ?", book, nextChapter, 1).first
       show_verse_ajax (@verse.id)
    end
@@ -136,8 +119,6 @@ class VerseController < ApplicationController
          end
       end
       paramArray = {:book => book, :chapter => prevChapter, :verse => 1}
-      #@verse = Verse.find(:first, :conditions => ["book = :book and chapter = :chapter and verse = :verse", paramArray])
-      #@verse = Verse.find(:first, :conditions => ["book = :book and chapter = :chapter and verse = :verse", paramArray])
       @verse = Verse.where("book = ? and chapter = ? and verse = ?", book, prevChapter, 1).first
       show_verse_ajax (@verse.id)
    end
@@ -147,8 +128,6 @@ class VerseController < ApplicationController
       currentVerse = Verse.find(session[:currentVerse].to_i)
       book = currentVerse.book
       book = BOOKCHAPTERS.next(book)
-#      paramArray = {:book => book, :chapter => 1, :verse => 1}
-#      @verse = Verse.find(:first, :conditions => ["book = :book and chapter = :chapter and verse = :verse", paramArray])
       @verse = Verse.where("book = ? and chapter = ? and verse = ?", book, 1, 1).first
       show_verse_ajax (@verse.id)
    end
@@ -158,8 +137,6 @@ class VerseController < ApplicationController
       currentVerse = Verse.find(session[:currentVerse].to_i)
       book = currentVerse.book
       book = BOOKCHAPTERS.prev(book)
-#      paramArray = {:book => book, :chapter => 1, :verse => 1}
-#      @verse = Verse.find(:first, :conditions => ["book = :book and chapter = :chapter and verse = :verse", paramArray])
       @verse = Verse.where("book = ? and chapter = ? and verse = ?", book, 1, 1).first
       show_verse_ajax (@verse.id)
    end
@@ -196,7 +173,6 @@ class VerseController < ApplicationController
    #AJAX. Search for word(s) without grammar. I was able to abstract a common search routine for both simple and advanced searches.
    def search
       begin
-         #flash.clear
          advanced_search
       rescue Exception => exc
          #NOTE: The @verse variable ends up being nil when referenced in the view for some odd reason. Must have something to do with the exception
@@ -205,7 +181,6 @@ class VerseController < ApplicationController
          else
             flash[:error] = exc.message
          end
-         #redirect_to(:action => "show")
          @search_results = []
          render :search
       end
@@ -270,10 +245,9 @@ class VerseController < ApplicationController
       #database is way to slow if I change Word to Verse and remove the include. It does return the correct result set though.
       @search_results = Word.includes(:verse).where(sqlConditions, paramArray)      
       #Get rid of duplicate search results. The database is too slow when we use distinct so we will do it ourselves.
-if @search_results.size > 4000
-   #raise "Search results are greater than 4000. Please narrow down your search."
-   raise "The search yielded too many results (#{@search_results.size.to_s}). Please narrow down the search to 4000 results or fewer."
-end
+      if @search_results.size > 4000
+         raise "The search yielded too many results (#{@search_results.size.to_s}). Please narrow down the search to 4000 results or fewer."
+      end
       unique_search_results = RaaOrderedHash[]
       @search_results.each { | word | unique_search_results[word.verse_id] = word}
       @search_results = unique_search_results.values
@@ -285,14 +259,6 @@ end
       #display first search result
       @verse = @search_results[0].verse unless @search_results.empty?
 
-      #Return Javascript back to the browser. Display the results table and grammar for the first search result.
-     #render :partial => 'layouts/paginator', :locals => { :collection => @search_results_enum} unless @search_results.empty?
-
-#     js = get_search_results_javascript
-#     js << get_grammar_table_javascript      
-#     respond_to do |format|
-#         format.js { render :text => js }
-#     end
       render :search
     end
 
@@ -315,7 +281,6 @@ end
    #Find and display the verse the user entered i.e. MAT 3.5. Reset the search results collection if a new verse was selected.
    def find
       begin
-           #@testvar = '<a href="javascript: void(0);" class="defns" onmouseover="coolTip(\'&lt;a href=\\\'/wiki/show_appears?value=Fidel+Castro&amp;name=primaryCharacter\\\' &gt;zAppears...&lt;/a&gt;\',STICKY, MOUSEOFF);" onmouseout="nd();">Hello</a>'
          @search_results = []
          session[:search_results] = []
          userVerse = params[:userVerse]
@@ -343,7 +308,6 @@ end
          session[:search_results] = []
          session[:currentVerse] = @verse.id.to_s
          show_verse_ajax(@verse.id)
-	 #render :search #(:template => "verse/search") #show")
 
       rescue Exception => exc
          #NOTE: The @verse variable ends up being nil when referenced in the view for some odd reason. Must have something to do with the exception
@@ -361,16 +325,6 @@ end
       @search_results = []
       session[:search_results] = []
       render :search
-#      session[:search_results] = []
-#      session[:search_results_index] = 0        
-#      session[:search_words] = []
-#      session[:search_type] = ""
-#      js = 'div = document.getElementById("searchResultsDiv");'
-#      js << 'try {div.removeChild(document.getElementById("searchResultsTable"))} catch (e) {};'
-#      js << 'hideShowSearchResults();'
-#     respond_to do |format|
-#         format.js { render :text => js }
-#     end
    end
 
    #######################
@@ -389,18 +343,14 @@ end
          format.js { render :text => js }
          format.html { render :text => "<p>HELLO</p>" }
       end
-   #    format.js { render :text => "alert('testing')" }
    end
-#proxy_1 | nginx.1    | 104.236.11.136 75.168.57.17 - - [23/Oct/2016:16:00:38 +0000] "GET /verse/show_ajax/2669 HTTP/1.1" 200 15801 "http://104.236.11.136/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
-#proxy_1 | nginx.1    | 104.236.11.136 75.168.57.17 - - [23/Oct/2016:16:01:51 +0000] "GET /verse/find?utf8=%E2%9C%93&userVerse=MAR+1.1%C2%A0%C2%A0 HTTP/1.1" 302 99 "http://104.236.11.136/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
-
     
    # Generate the Javascript to display the Grammar Table. This does two things for us. It lets us use Ajax and IE doesn't support
    # changing tables in the DOM.
    def get_grammar_table_javascript
       session[:currentVerse] = @verse.id.to_s 
       #Display the tranlastion of the verse
-      js = 'document.getElementById("translationDiv").innerHTML = "' + CGI.escapeHTML(@verse.kjv_bible.translation.strip) + '";'      
+      js = 'document.getElementById("translationDiv").innerHTML = "' + @verse.book + " " + @verse.chapter.to_s + ":" + @verse.verse.to_s + "  " + CGI.escapeHTML(@verse.kjv_bible.translation.strip) + '";'      
 
       #Initialization
       js << 'var div = null;'
@@ -417,12 +367,7 @@ end
       #Create new table
       js << 'table = document.createElement("table");'
       js << 'table.id="grammarTable";'
-      #js << 'table.style.clear = "left";'
       js << 'table.className = "grammarTable";'
-      #js << 'table.style.border = "0";'
-      #js << 'table.style.cellPadding = "0";'
-      #js << 'table.style.cellspacing = "2";'
-      #js << 'table.style.width = "85%";'
       js << 'div.appendChild(table);'
       #Create colGroups
       js << 'colgroup = document.createElement("colgroup");'
@@ -516,7 +461,6 @@ end
       @verse.words.each_index do |index|
          word = @verse.words[index]
          search_matches = match_search_criteria(word, session[:search_words] || [], search_word_orders) 
-         #puts "\nmatches=#{matches.inspect} word_order=#{word.word_order} serach_words=#{session[:search_words].inspect} search_wrods_orders=#{search_word_orders}\n"
          #Create tr
          js << 'tr = document.createElement("tr");'
          js << 'tbody.appendChild(tr);'
@@ -531,9 +475,7 @@ end
          js << 'td.className = "hiliteSearchWord";' unless !@search_results.include?(@verse.id) || search_matches["strong_number_id"] == nil
          #Note: XHTML does not support span here. js << 'td.innerHTML = "<span title=' + "'Click to search'" + '>' + sprintf("%04d", word.strong_number_id) + '</span>";'
          js << 'td.innerHTML = "<span title=' + "'Click to search'" + '>' + sprintf("%04d", word.strong_number_id) + '</span>";'
-         #js << 'td.innerHTML = "' + sprintf("%04d", word.strong_number_id) + '";'
          js << 'td.onmousedown=function (evt) { editCell(this);};'
-         #td.ondblclick = function (evt) { editCell(this);};
          #Create td -  ordinal position
          js << 'td = document.createElement("td");'
          js << 'tr.appendChild(td);'
@@ -614,8 +556,6 @@ end
         #Create td 
          js << 'td = document.createElement("td");'
          js << 'tr.appendChild(td);'
-         #js << 'td.innerHTML = "<span title=' + %Q/'#{word.verse.kjv_bible.translation.strip} ' id='title'><a href='/ + '/verse/show/' + %Q/#{word.verse.id.to_s}'> #{word.verse.book} #{word.verse.chapter.to_s}:#{word.verse.verse.to_s}</ + '/a></span>";'
-         #js << 'td.innerHTML = "<a href=/verse/show/' + %Q/#{word.verse.id.to_s}> #{word.verse.book} #{word.verse.chapter.to_s}:#{word.verse.verse.to_s}</ + '/a>";'
          js << %Q/td.innerHTML = '<a href="#"' + ' onclick="new Ajax.Request(' + "'\/verse\/show_ajax\/#{word.verse.id.to_s}', {asynchronous:true, evalScripts:true}); return false;" + '"> #{word.verse.book} #{word.verse.chapter.to_s}:#{word.verse.verse.to_s}<\/a>';/
          counter += 1
        end
