@@ -3,7 +3,7 @@ development:
   database: bst_production #bst_development
   host: mysql        #this needs to match the label for mysql in col 1 in docker-compose.yml 
   username: <%= Rails.application.secrets.mysql_username %>
-  password: <%= Rails.application.secrets.mysql_username %>
+  password: <%= Rails.application.secrets.mysql_password %>
   port: 3306
 
 # Warning: The database defined as 'test' will be erased and
@@ -14,7 +14,7 @@ test:
   database: bst_test
   host: mysql        #this needs to match the label for mysql in col 1 in docker-compose.yml 
   username: <%= Rails.application.secrets.mysql_username %>
-  password: <%= Rails.application.secrets.mysql_username %>
+  password: <%= Rails.application.secrets.mysql_password %>
   port: 3306
 
 production:
@@ -22,5 +22,5 @@ production:
   database: bst_production
   host: mysql        #this needs to match the label for mysql in col 1 in docker-compose.yml 
   username: <%= Rails.application.secrets.mysql_username %>
-  password: <%= Rails.application.secrets.mysql_username %>
+  password: <%= Rails.application.secrets.mysql_password %>
   port: 3306

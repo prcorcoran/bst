@@ -41,6 +41,8 @@ services:
       - LETSENCRYPT_HOST=gracebiblechurch.us,www.gracebiblechurch.us
       - LETSENCRYPT_EMAIL=prcorcoran@gmail.com
       - BST_SECRET_KEY_BASE
+      - BST_MYSQL_USERNAME
+      - BST_MYSQL_PASSWORD
     ports:
       - "3000:3000"
     command: bundle exec puma -C config/puma.rb
@@ -54,7 +56,7 @@ services:
     image: mysql:5.7.18
     restart: always
     environment:
-      -  MYSQL_ROOT_PASSWORD=root
+      -  MYSQL_ROOT_PASSWORD
     ports:
       - 3306:3306
 
