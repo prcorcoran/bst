@@ -14,6 +14,10 @@ docker exec -i sbgc_mysql_1 mysql -uroot -p<redacted> < backup_bst_production_20
 docker exec -it sbgc_mysql_1 mysql -uroot -p<redacted>
   > select * from bst_production.kjv_bible;
 
+-- create bst_user
+create user 'bst_user' identified by '<redacted>';
+grant all on *.* to 'bst_user'@'%';
+
 $ export VIRTUAL_HOST=<ip addr>
 
 point browser to: http://<ip addr>/
